@@ -34,9 +34,9 @@ def create_page(page_name, pages_config, links_config):
             gr.Markdown("## Downloads")
             for download in links_config[page_name]:
                 button_label = download.get("label", "Download")
-                script_path = download.get("script")
-                url = download.get("url", "#")
-                if script_path:
+                script_path = pathlib.Path(download.get("script")).as_posix()
+                if script_path and os.path.exists(script_path):
+
                     gr.Button(button_label).click(
                         fn=run_bash_script,
                         inputs=gr.Textbox(value=script_path, visible=False),
@@ -48,23 +48,23 @@ def create_page(page_name, pages_config, links_config):
     return page
 
 
-def create_gradio_app(pages_yaml="pages.yaml", links_yaml="links.yaml", server_name="0.0.0.0", server_port=7860):
+def create_gradio_app(pages_yaml="./pages.yaml", links_yaml="./links.yaml", server_name="0.0.0.0", server_port=None):
     """Create and launch a Gradio app with pages and download buttons."""
     # Load configurations
     pages_config = load_yaml_config(pages_yaml)
     links_config = load_yaml_config(links_yaml)
 
     # Create the Gradio app with Blocks
-    with gr.Blocks() as demo:
+    with gr.Blocks() as download_app:
         with gr.Tabs() as tabs:
             for page_name in pages_config.keys():
                 with gr.Tab(page_name, id=page_name.lower()):
                     create_page(page_name, pages_config, links_config)
 
     # Launch the app
-    demo.launch(server_name=server_name, server_port=server_port, root_path="")
-    return demo
+    download_app.launch(server_name=server_name, server_port=server_port, root_path="")
+    return download_app
 
 
 if __name__ == "__main__":
-    create_gradio_app()
+    create_gradio_app(server_port=8105)  # Default port

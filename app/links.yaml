@@ -1,7 +1,5 @@
 downloads:
   - label: Download File 1
-    url: https://example.com/file1.zip
     script: scripts/d1.sh
   - label: Download File 2
-    url: https://example.com/file2.zip
     script: scripts/d2.sh
