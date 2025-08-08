@@ -1,0 +1,7 @@
+files:
+  - url: https://example.com/file1.pdf
+    label: Download PDF Document
+  - url: https://example.com/image.jpg
+    label: Download Image
+  - url: https://example.com/data.csv
+    label: Download CSV Data
