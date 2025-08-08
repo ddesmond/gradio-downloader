@@ -1,6 +1,6 @@
 import os
 import yaml
-
+import argparse
 
 def parse_shell_scripts(directory):
     # Initialize list to store shell script details
@@ -30,9 +30,18 @@ def write_yaml_file(sh_files, output_file):
 
 def main():
     # Specify directory to scan (current directory in this case)
-    directory = 'scripts'
-    output_file = 'links.yaml'
 
+    output_file = 'links.yaml'
+    directory = 'scripts'
+
+    parser = argparse.ArgumentParser(description='Parse a folder for .sh files and generate a YAML file.')
+    parser.add_argument('directory', type=str, help='Directory to scan for .sh files')
+    args = parser.parse_args()
+    if not args.directory:
+        directory = directory
+    else:
+        directory = args.directory
+    print(directory)
     # Parse shell scripts and write to YAML
     sh_files = parse_shell_scripts(directory)
     write_yaml_file(sh_files, output_file)

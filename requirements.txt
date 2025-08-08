@@ -2,3 +2,4 @@ black
 gradio
 pyyaml
 requests
+argparse

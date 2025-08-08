@@ -1,7 +1,5 @@
 downloads:
-- label: d3.sh
-  script: scripts/d3.sh
 - label: d2.sh
-  script: scripts/d2.sh
+  script: /Users/des/Documents/__git/gradio-downloader/app/scripts/d2.sh
 - label: d1.sh
-  script: scripts/d1.sh
+  script: /Users/des/Documents/__git/gradio-downloader/app/scripts/d1.sh
