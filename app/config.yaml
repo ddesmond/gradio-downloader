@@ -1,0 +1,7 @@
+items:
+  - type: download
+    url: https://example.com/file1.pdf
+    label: Download PDF Document
+  - type: link
+    url: https://example.com/page1.html
+    label: Visit Page 1
