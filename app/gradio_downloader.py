@@ -19,7 +19,8 @@ def run_bash_script(script_path):
         return f"Error executing script:\n{e.stderr}"
 
 
-def create_page(page_name, pages_config, links_config):
+def create_page(page_name, pages_config, links_config,
+                options_config):
     """Create a Gradio page based on the provided configuration."""
     page_config = pages_config.get(page_name, {})
     title = page_config.get("title", page_name)
@@ -31,17 +32,20 @@ def create_page(page_name, pages_config, links_config):
 
         # Add download buttons for this page if specified in links.yaml
         if page_name in links_config:
-            gr.Markdown("## Downloads")
-            for download in links_config[page_name]:
-                button_label = download.get("label", "Download")
-                script_path = pathlib.Path(download.get("script")).as_posix()
-                if script_path and os.path.exists(script_path):
 
-                    gr.Button(button_label).click(
-                        fn=run_bash_script,
-                        inputs=gr.Textbox(value=script_path, visible=False),
-                        outputs=gr.Textbox(label="Script Output"),
-                        api_name=f"download_{button_label.lower().replace(' ', '_')}"
+            if page_name == "downloads":
+                gr.Markdown("## Downloads")
+                for download in links_config[page_name]:
+                    print(page_name, download)
+                    button_label = download.get("label", "Download")
+                    script_path = pathlib.Path(download.get("script")).as_posix()
+                    if script_path and os.path.exists(script_path):
+
+                        gr.Button(button_label).click(
+                            fn=run_bash_script,
+                            inputs=gr.Textbox(value=script_path, visible=False),
+                            outputs=gr.Textbox(label="Script Output"),
+                            api_name=f"download_{button_label.lower().replace(' ', '_')}"
                     )
 
 
@@ -53,13 +57,14 @@ def create_gradio_app(pages_yaml="./pages.yaml", links_yaml="./links.yaml", serv
     # Load configurations
     pages_config = load_yaml_config(pages_yaml)
     links_config = load_yaml_config(links_yaml)
+    options_config = pages_config.get("./options.yaml", {})
 
     # Create the Gradio app with Blocks
     with gr.Blocks() as download_app:
         with gr.Tabs() as tabs:
             for page_name in pages_config.keys():
                 with gr.Tab(page_name, id=page_name.lower()):
-                    create_page(page_name, pages_config, links_config)
+                    create_page(page_name, pages_config, links_config, options_config)
 
     # Launch the app
     download_app.launch(server_name=server_name, server_port=server_port, root_path="")

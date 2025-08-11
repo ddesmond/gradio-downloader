@@ -1,6 +1,6 @@
-downloads:
-- label: d2.sh
+administration:
+- label: close-lodgy.sh
   script: /Users/des/Documents/__git/gradio-downloader/app/scripts/d2.sh
-- label: d1.sh
+- label: open-lodgy.sh
   script: /Users/des/Documents/__git/gradio-downloader/app/scripts/d1.sh
 
