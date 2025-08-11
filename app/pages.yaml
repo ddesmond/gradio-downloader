@@ -1,3 +1,12 @@
 downloads:
   title: Downloads
   content: Download files using the buttons below. Each button triggers a bash script.
+
+settings:
+  title: Settings
+  content: Settings page
+
+
+administration:
+  title: Administration
+  content: Administration page
